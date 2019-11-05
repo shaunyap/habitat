@@ -2,8 +2,8 @@
 
 set -euo pipefail 
  
-# shellcheck source=./support/ci/shared.sh 
-source ./support/ci/shared.sh 
+# shellcheck source=.expeditor/scripts/shared.sh 
+source .expeditor/scripts/shared.sh 
 
 branch="ci/cargo-update-$(date +"%Y%m%d%H%M%S")"
 git checkout -b "$branch"
@@ -32,6 +32,7 @@ git commit -s -m "Update Cargo.lock"
 # https://expeditor.chef.io/docs/reference/script/#open-pull-request
 echo "--- :github: Open Pull Request"
 #hub pull-request --no-edit 
+command -v open-pull-request
 
 git checkout master 
 git branch -D "$branch"
