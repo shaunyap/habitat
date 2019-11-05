@@ -11,7 +11,7 @@ git checkout -b "$branch"
 toolchain="$(get_toolchain)"
 
 install_rustup
-install_rust_toolchain "$toolchain"
+rustup install $toolchain
 
 echo "--- :ruby: Install hub"
 gem install hub
