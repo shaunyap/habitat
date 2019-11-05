@@ -16,23 +16,28 @@ rustup install $toolchain
 echo "--- :ruby: Install hub"
 gem install hub
 
-echo "--- Print git config "
-git config user.name
-git config user.email
+echo "--- :habicat: Installing and configuring build dependencies"
+hab pkg install core/libsodium core/libarchive core/openssl core/zeromq
 
-echo "--- :box: Cargo Update"
+
+PKG_CONFIG_PATH="$(< $(hab pkg path core/libarchive)/PKG_CONFIG_PATH)"
+PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$(< $(hab pkg path core/libsodium)/PKG_CONFIG_PATH)"
+PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$(< $(hab pkg path core/openssl)/PKG_CONFIG_PATH)"
+PKG_CONFIG_PATH="$PKG_CONFIG_PATH:$(< $(hab pkg path core/zeromq)/PKG_CONFIG_PATH)"
+
+export PKG_CONFIG_PATH 
+
+echo "--- :rust: Cargo Update"
+cargo clean
 cargo +"$toolchain" update
-echo "--- :box: Cargo Check"
-cargo +"$toolchain" check --quiet --all --tests
+
+echo "--- :rust: Cargo Check"
+cargo +"$toolchain" check --all --tests
 
 git add Cargo.lock
 
 git commit -s -m "Update Cargo.lock"
 
-# https://expeditor.chef.io/docs/reference/script/#open-pull-request
 echo "--- :github: Open Pull Request"
-#hub pull-request --no-edit 
-command -v open-pull-request
+hub pull-request --no-edit --draft
 
-git checkout master 
-git branch -D "$branch"
