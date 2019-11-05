@@ -10,29 +10,29 @@ expeditor:
         DO_FAKE_RELEASE: "true"
 
 steps:
-  - label: ":github: Create GitHub Release"
-    command:
-      - .expeditor/scripts/finish_release/create_github_release.sh 
-    expeditor:
-      secrets:
-        GITHUB_TOKEN:
-          account: github
-          field: token
-      executor:
-        docker:
-     
-  - label: ":chocolate_bar: Publish Chocolatey package"
-    command:
-      - powershell .expeditor/scripts/finish_release/publish_to_chocolatey.ps1
-    expeditor:
-      secrets:
-        CHOCO_API_KEY:
-          path: account/static/chocolatey/habitat
-          field: api_key
-      executor:
-        docker:
-          host_os: windows
-          environment:
+  # - label: ":github: Create GitHub Release"
+    # command:
+      # - .expeditor/scripts/finish_release/create_github_release.sh
+    # expeditor:
+      # secrets:
+        # GITHUB_TOKEN:
+          # account: github
+          # field: token
+      # executor:
+        # docker:
+#
+  # - label: ":chocolate_bar: Publish Chocolatey package"
+    # command:
+      # - powershell .expeditor/scripts/finish_release/publish_to_chocolatey.ps1
+    # expeditor:
+      # secrets:
+        # CHOCO_API_KEY:
+          # path: account/static/chocolatey/habitat
+          # field: api_key
+      # executor:
+        # docker:
+          # host_os: windows
+          # environment:
 
   - label: ":rust: Cargo update"
     command:
