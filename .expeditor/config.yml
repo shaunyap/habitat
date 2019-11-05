@@ -99,10 +99,6 @@ subscriptions:
   # Scheduled Pipelines
   ########################################################################
 
-  - workload: schedule_triggered:{{agent_id}}:cargo_update:*
-    actions:
-      - bash:.expeditor/scripts/cargo_update.sh
-
   # Promotion Workloads
   ########################################################################
   # Only allow promotion actions from acceptance (to current) and
@@ -119,11 +115,6 @@ subscriptions:
       - bash:.expeditor/scripts/expeditor_promote.sh
       - bash:.expeditor/scripts/purge_cdn.sh:
           post_commit: true
-
-schedules:
-  - name: cargo_update
-    description: "Run 'cargo update' every Monday at 12PM UTC"
-    cronline: "0 12 * * 1"
 
 promote:
   channels:
