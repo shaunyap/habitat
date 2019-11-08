@@ -261,9 +261,9 @@ maybe_run() {
   fi
 }
 
-# Access the Fastly API token. Useful for purging caches.
-# fastly_token() {
-#     vault kv get \
-#           -field=token \
-#           account/static/fastly/eng-services-ops
-# }
+Access the Fastly API token. Useful for purging caches.
+fastly_token() {
+    vault kv get \
+          -field=token \
+          account/static/fastly/eng-services-ops
+}
