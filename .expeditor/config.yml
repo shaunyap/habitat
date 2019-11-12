@@ -56,7 +56,9 @@ subscriptions:
       - built_in:bump_version:
           ignore_labels:
             - "Expeditor: Skip Version Bump"
-      - built_in:update_changelog
+      - built_in:update_changelog:
+          ignore_labels:
+            - "Expeditor: Exclude from Changelog"
       - trigger_pipeline:release_habitat:
           only_if: built_in:bump_version
 
