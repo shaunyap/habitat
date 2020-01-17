@@ -200,3 +200,12 @@ create_archive_from_hart() {
 
     echo "${pkg_artifact}"
 }
+
+set_builder_sha_metadata() {
+    local sha="${1}"
+    buildkite-agent meta-data set "builder-sha" "${sha}"
+}
+
+get_builder_sha_metadata() {
+    buildkite-agent meta-data get "builder-sha"
+}

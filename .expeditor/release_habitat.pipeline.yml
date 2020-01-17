@@ -18,6 +18,16 @@ steps:
 # Release!
 #######################################################################
 
+  # We need to do this before we build any of the
+  # habitat/builder-worker packages later on... might as well do it
+  # here.
+  - label: ":thinking_face: Determine current Builder SHA"
+    command:
+      - .expeditor/scripts/release_habitat/store_current_builder_sha.sh
+    expeditor:
+      executor:
+        docker:
+
   - label: "[:linux: build hab]"
     command:
       - .expeditor/scripts/release_habitat/build_component.sh hab
@@ -344,7 +354,6 @@ steps:
   # the Linux2 package earlier, we'll just keep them all together here
   # for clarity.
   - label: "[:linux: build habitat/builder-worker]"
-    skip: "Not Implemented Yet"
     command:
       - .expeditor/scripts/release_habitat/build_worker.sh
     expeditor:
@@ -355,7 +364,6 @@ steps:
             - BUILD_PKG_TARGET=x86_64-linux
 
   - label: "[:linux: :two: build habitat/builder-worker]"
-    skip: "Not Implemented Yet"
     command:
       - .expeditor/scripts/release_habitat/build_worker.sh
     expeditor:

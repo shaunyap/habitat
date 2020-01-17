@@ -32,8 +32,14 @@ echo "--- :zap: Cleaning up old studio, if present"
 ${hab_binary} studio rm
 
 # Download builder code and, um, build
-git clone https://github.com/habitat-sh/builder
-cd builder
+builder_sha=$(get_builder_sha_metadata)
+echo "--- Downloading Builder code @ ${builder_sha}"
+# I doubt we're ever going to have a directory called "builder" in
+# this repository, but better safe than sorry.
+clone_directory="builder-$(date +'%s')"
+git clone https://github.com/habitat-sh/builder "${clone_directory}"
+cd "${clone_directory}"
+git checkout "${builder_sha}"
 
 echo "--- :habicat: Building builder-worker"
 
