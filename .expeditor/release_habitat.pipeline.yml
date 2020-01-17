@@ -338,6 +338,46 @@ steps:
           environment:
             - BUILD_PKG_TARGET=x86_64-linux
 
+  # All habitat/builder-worker builds depend on core/hab and core/hab-studio,
+  # but the Linux and Windows ones additionally depend on
+  # core/hab-pkg-export-docker. Though we technically *could* build
+  # the Linux2 package earlier, we'll just keep them all together here
+  # for clarity.
+  - label: "[:linux: build habitat/builder-worker]"
+    skip: "Not Implemented Yet"
+    command:
+      - .expeditor/scripts/release_habitat/build_worker.sh
+    expeditor:
+      executor:
+        docker:
+          privileged: true
+          environment:
+            - BUILD_PKG_TARGET=x86_64-linux
+
+  - label: "[:linux: :two: build habitat/builder-worker]"
+    skip: "Not Implemented Yet"
+    command:
+      - .expeditor/scripts/release_habitat/build_worker.sh
+    expeditor:
+      executor:
+        docker:
+          privileged: true
+          environment:
+            - BUILD_PKG_TARGET=x86_64-linux-kernel2
+
+  # TODO: Could we just use a Powershell script to build *all* of them?
+  - label: "[:windows: build habitat/builder-worker]"
+    skip: "Not Implemented Yet"
+    command:
+      - powershell .expeditor/scripts/release_habitat/build_worker.ps1
+    expeditor:
+      executor:
+        docker:
+          host_os: windows
+          environment:
+            - BUILD_PKG_TARGET=x86_64-windows # Do we *really* need this?
+            - BUILDKITE_AGENT_ACCESS_TOKEN
+
   - wait
 
   # TODO (CM): It wouldn't take too much additional work to have
