@@ -356,23 +356,27 @@ steps:
   - label: "[:linux: build habitat/builder-worker]"
     command:
       - .expeditor/scripts/release_habitat/build_worker.sh
+    env:
+      HAB_ORIGIN: "habitat"
     expeditor:
       executor:
         docker:
           privileged: true
           environment:
-            - HAB_ORIGIN=habitat
+            - HAB_ORIGIN
             - BUILD_PKG_TARGET=x86_64-linux
 
   - label: "[:linux: :two: build habitat/builder-worker]"
     command:
       - .expeditor/scripts/release_habitat/build_worker.sh
+    env:
+      HAB_ORIGIN: "habitat"
     expeditor:
       executor:
         docker:
           privileged: true
           environment:
-            - HAB_ORIGIN=habitat
+            - HAB_ORIGIN
             - BUILD_PKG_TARGET=x86_64-linux-kernel2
 
   # TODO: Could we just use a Powershell script to build *all* of them?
