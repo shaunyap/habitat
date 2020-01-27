@@ -28,7 +28,7 @@ export PATH=/opt/mac-bootstrapper/embedded/bin:/usr/local/bin:$PATH
 
 declare -g hab_binary
 curlbash_hab "$BUILD_PKG_TARGET"
-import_keys
+import_keys "${HAB_ORIGIN}"
 
 ########################################################################
 # BEGIN CERTIFICATE SHENANIGANS

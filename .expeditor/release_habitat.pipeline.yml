@@ -361,6 +361,7 @@ steps:
         docker:
           privileged: true
           environment:
+            - HAB_ORIGIN=habitat
             - BUILD_PKG_TARGET=x86_64-linux
 
   - label: "[:linux: :two: build habitat/builder-worker]"
@@ -371,6 +372,7 @@ steps:
         docker:
           privileged: true
           environment:
+            - HAB_ORIGIN=habitat
             - BUILD_PKG_TARGET=x86_64-linux-kernel2
 
   # TODO: Could we just use a Powershell script to build *all* of them?
@@ -383,6 +385,7 @@ steps:
         docker:
           host_os: windows
           environment:
+            - HAB_ORIGIN=habitat
             - BUILD_PKG_TARGET=x86_64-windows # Do we *really* need this?
             - BUILDKITE_AGENT_ACCESS_TOKEN
 

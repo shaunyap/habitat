@@ -18,20 +18,22 @@ get_version_from_repo() {
     cat "$dir/VERSION"
 }
 
-# Download public and private keys for the "core" origin from Builder.
+# Download public and private keys for the given origin from Builder.
 #
 # Currently relies on a global variable `hab_binary` being set, since
 # in the Linux build process, we need to switch binaries mid-way
 # through the pipeline. As we bring more platforms into play, this may
 # change. FYI.
 import_keys() {
-    echo "--- :key: Downloading 'core' public keys from ${HAB_BLDR_URL}"
-    ${hab_binary:?} origin key download core
-    echo "--- :closed_lock_with_key: Downloading latest 'core' secret key from ${HAB_BLDR_URL}"
+    local origin="${1}"
+
+    echo "--- :key: Downloading '${origin}' public keys from ${HAB_BLDR_URL}"
+    ${hab_binary:?} origin key download "${origin}"
+    echo "--- :closed_lock_with_key: Downloading latest '${origin}' secret key from ${HAB_BLDR_URL}"
     ${hab_binary:?} origin key download \
         --auth="${HAB_AUTH_TOKEN}" \
         --secret \
-        core
+        "${origin}"
 }
 
 # Returns the full "release" version in the form of X.Y.Z/DATESTAMP

@@ -26,7 +26,7 @@ echo "--- Channel: $channel - bldr url: $HAB_BLDR_URL"
 
 declare -g hab_binary
 install_release_channel_hab_binary "$BUILD_PKG_TARGET"
-import_keys
+import_keys "${HAB_ORIGIN}"
 
 echo "--- :zap: Cleaning up old studio, if present"
 ${hab_binary} studio rm
