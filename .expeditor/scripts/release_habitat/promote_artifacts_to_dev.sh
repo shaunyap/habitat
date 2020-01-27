@@ -85,7 +85,7 @@ sha="${BUILDKITE_COMMIT}"
 import_gpg_keys
 
 echo "--- Pushing manifest file to S3"
-store_in_s3 "${version}" manifest.json
+maybe_run store_in_s3 "${version}" manifest.json
 
 # The remaining logic is essentially the same as in
 # `buildkite_promote.sh` and `expeditor_promote.sh`, but
@@ -93,5 +93,5 @@ store_in_s3 "${version}" manifest.json
 # hierarchy, and not in the "channels" hierarchy; *this* code is what
 # ultimately gets it into said hierarchy.
 
-promote_packages_to_builder_channel manifest.json dev
-promote_version_in_s3 "${version}" dev
+maybe_run promote_packages_to_builder_channel manifest.json dev
+maybe_run promote_version_in_s3 "${version}" dev
