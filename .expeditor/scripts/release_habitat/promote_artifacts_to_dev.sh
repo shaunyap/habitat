@@ -44,12 +44,21 @@ echo "--- Generating manifest input from $source_channel"
 # this Buildkite metadata and capture it in a durable,
 # Buildkite-independent form (namely, `manifest.json`) that we can use
 # in downstream applications.
-channel_pkgs_json=$(curl -s "${HAB_BLDR_URL}/v1/depot/channels/${HAB_ORIGIN}/${source_channel}/pkgs")
-mapfile -t packages_to_promote < <(echo "${channel_pkgs_json}" | \
-                         jq -r \
-                         '.data |
-                         map(.origin + "/" + .name + "/" + .version + "/" + .release)
-                         | .[]')
+
+core_pkgs_json=$(curl -s "${HAB_BLDR_URL}/v1/depot/channels/core/${source_channel}/pkgs")
+habitat_pkgs_json=$(curl -s "${HAB_BLDR_URL}/v1/depot/channels/habitat/${source_channel}/pkgs")
+
+mapfile -t packages_to_promote < <(echo "${core_pkgs_json}" | \
+                                       jq -r \
+                                          '.data |
+                                          map(.origin + "/" + .name + "/" + .version + "/" + .release)
+                                          | .[]';
+                                   echo "${habitat_pkgs_json}" | \
+                                       jq -r \
+                                          '.data |
+                                          map(.origin + "/" + .name + "/" + .version + "/" + .release)
+                                          | .[]'
+                                  )
 
 # Generate the input file
 manifest_input_file="manifest_input.txt"
@@ -79,6 +88,7 @@ sha="${BUILDKITE_COMMIT}"
 .expeditor/scripts/release_habitat/create_manifest.rb "${manifest_input_file}" "${version}" "${sha}"
 # Note that the "manifest.json" filename is determined by the
 # `create_manifest.rb` script.
+cat manifest.json
 
 ########################################################################
 
