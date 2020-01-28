@@ -25,6 +25,12 @@ HAB_AUTH_TOKEN="$(hab_auth_token)"
 export BUILDKITE_BUILD_ID="${EXPEDITOR_BUILD_ID}"
 channel="$(get_release_channel)"
 
+# We are building habitat/builder-worker in this pipeline now, too, so
+# we have to deal with that origin as well.
 hab bldr channel destroy \
     --origin=core \
+    "${channel}"
+
+hab bldr channel destroy \
+    --origin=habitat \
     "${channel}"
