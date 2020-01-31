@@ -73,3 +73,7 @@ function Set-TargetMetadata($PackageIdent) {
 function Get-ReleaseChannel {
     "habitat-release-$Env:BUILDKITE_BUILD_ID"
 }
+
+function Get-BuilderSHAMetadata {
+    Invoke-Expression "buildkite-agent meta-data get builder-sha"
+}

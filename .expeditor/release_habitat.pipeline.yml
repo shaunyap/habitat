@@ -379,17 +379,17 @@ steps:
             - HAB_ORIGIN
             - BUILD_PKG_TARGET=x86_64-linux-kernel2
 
-  # TODO: Could we just use a Powershell script to build *all* of them?
   - label: "[:windows: build habitat/builder-worker]"
-    skip: "Not Implemented Yet"
     command:
       - powershell .expeditor/scripts/release_habitat/build_worker.ps1
+    env:
+      HAB_ORIGIN: "habitat"
     expeditor:
       executor:
         docker:
           host_os: windows
           environment:
-            - HAB_ORIGIN=habitat
+            - HAB_ORIGIN
             - BUILD_PKG_TARGET=x86_64-windows # Do we *really* need this?
             - BUILDKITE_AGENT_ACCESS_TOKEN
 
